@@ -1,0 +1,50 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+:root {
+  --background: 240 20% 97%;
+  --foreground: 240 10% 3.9%;
+  --dark-bg: 222 47% 11%;
+  --dark-fg: 0 0% 98%;
+}
+
+@layer base {
+  html {
+    scroll-behavior: smooth;
+  }
+  
+  body {
+    @apply bg-slate-950 text-slate-200 transition-colors duration-300 font-space-grotesk text-[15px];
+  }
+
+  h1 {
+    @apply text-4xl sm:text-5xl font-bold tracking-tight;
+  }
+
+  h2 {
+    @apply text-2xl sm:text-3xl font-semibold tracking-tight;
+  }
+
+  h3 {
+    @apply text-xl font-medium;
+  }
+}
+
+@layer utilities {
+  .bg-gradient-soft {
+    @apply bg-gradient-to-r from-indigo-500/80 via-purple-500/80 to-pink-500/80;
+  }
+  
+  .text-gradient-soft {
+    @apply bg-gradient-to-r from-indigo-400 via-purple-400 to-pink-400 text-transparent bg-clip-text;
+  }
+
+  .section-padding {
+    @apply py-16 sm:py-20;
+  }
+
+  .card-hover {
+    @apply hover:bg-slate-800/50 hover:border-indigo-500/30 transition-all duration-300;
+  }
+}

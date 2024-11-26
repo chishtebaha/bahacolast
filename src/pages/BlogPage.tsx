@@ -51,33 +51,35 @@ export default function BlogPage() {
       <BlogNavbar searchQuery={searchQuery} onSearchChange={setSearchQuery} />
       
       <div className="max-w-5xl mx-auto px-4 sm:px-6 py-8">
-        {/* Tags Filter Menu */}
-        <div className="flex items-center gap-2 overflow-x-auto pb-4">
-          <button
-            onClick={() => setSelectedTags([])}
-            className={`
-              flex-none px-3 py-1.5 rounded-full text-sm font-medium transition-all
-              ${selectedTags.length === 0
-                ? 'bg-blue-500 text-white'
-                : 'text-slate-400 hover:text-white'}
-            `}
-          >
-            all posts
-          </button>
-          {allTags.map(tag => (
+        {/* Tags Filter Bar */}
+        <div className="sticky top-16 z-30 -mx-4 px-4 py-3 bg-slate-900/95 backdrop-blur-sm border-b border-slate-800/50">
+          <div className="flex items-center gap-2 overflow-x-auto pb-2 scrollbar-hide">
             <button
-              key={tag}
-              onClick={() => toggleTag(tag)}
+              onClick={() => setSelectedTags([])}
               className={`
                 flex-none px-3 py-1.5 rounded-full text-sm font-medium transition-all
-                ${selectedTags.includes(tag)
+                ${selectedTags.length === 0
                   ? 'bg-blue-500 text-white'
-                  : 'text-slate-400 hover:text-white'}
+                  : 'bg-slate-800/50 text-slate-400 hover:text-white hover:bg-slate-700/50'}
               `}
             >
-              {tag}
+              all posts
             </button>
-          ))}
+            {allTags.map(tag => (
+              <button
+                key={tag}
+                onClick={() => toggleTag(tag)}
+                className={`
+                  flex-none px-3 py-1.5 rounded-full text-sm font-medium transition-all
+                  ${selectedTags.includes(tag)
+                    ? 'bg-blue-500 text-white'
+                    : 'bg-slate-800/50 text-slate-400 hover:text-white hover:bg-slate-700/50'}
+                `}
+              >
+                {tag}
+              </button>
+            ))}
+          </div>
         </div>
 
         <div className="space-y-12 mt-8">
@@ -89,7 +91,7 @@ export default function BlogPage() {
                   <h2 className="text-2xl font-bold text-white">{year}</h2>
                   <div className="flex-1 h-px bg-slate-800"></div>
                 </div>
-                <div className="space-y-2">
+                <div className="space-y-4">
                   {posts.map(post => (
                     <Link 
                       key={post.id}
@@ -97,26 +99,48 @@ export default function BlogPage() {
                       className="block group"
                     >
                       <article className="bg-slate-800/50 rounded-lg border border-slate-700/50 hover:border-blue-500/30 transition-all duration-300">
-                        <div className="p-4">
-                          <div className="flex items-center gap-4">
-                            <h3 className="text-lg font-semibold text-white group-hover:text-blue-400 transition-colors min-w-0 truncate">
-                              {post.title}
-                            </h3>
-                            <div className="flex items-center gap-3 flex-shrink-0">
+                        <div className="flex items-start gap-6 p-4">
+                          {post.image && (
+                            <div className="flex-none w-48 h-32 overflow-hidden rounded-lg">
+                              <img 
+                                src={post.image} 
+                                alt={post.title}
+                                className="w-full h-full object-cover transition-transform duration-500 group-hover:scale-105"
+                              />
+                            </div>
+                          )}
+                          <div className="flex-1 min-w-0">
+                            <div className="flex items-center gap-3 mb-2">
+                              <img 
+                                src={post.author.avatar} 
+                                alt={post.author.name}
+                                className="w-6 h-6 rounded-full"
+                              />
+                              <span className="text-sm text-slate-400">{post.author.name}</span>
+                              <span className="text-slate-600">•</span>
                               <div className="flex items-center gap-1 text-sm text-slate-400">
                                 <Clock className="w-4 h-4" />
                                 <span>{post.readTime}</span>
                               </div>
-                              <div className="flex gap-2 flex-shrink-0">
-                                {post.tags.map(tag => (
-                                  <span 
-                                    key={tag}
-                                    className="px-2 py-1 text-xs font-medium bg-blue-500/20 text-blue-300 rounded-full"
-                                  >
-                                    {tag}
-                                  </span>
-                                ))}
-                              </div>
+                            </div>
+
+                            <h3 className="text-lg font-semibold text-white mb-1.5 group-hover:text-blue-400 transition-colors line-clamp-1">
+                              {post.title}
+                            </h3>
+                            
+                            <p className="text-sm text-slate-400 mb-3 line-clamp-2">
+                              {post.excerpt}
+                            </p>
+
+                            <div className="flex flex-wrap gap-2">
+                              {post.tags.map(tag => (
+                                <span 
+                                  key={tag}
+                                  className="px-2 py-1 text-xs font-medium bg-blue-500/20 text-blue-300 rounded-full"
+                                >
+                                  {tag}
+                                </span>
+                              ))}
                             </div>
                           </div>
                         </div>
